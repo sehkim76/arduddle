@@ -6,67 +6,59 @@
   <title>AR Drawing</title>
 </head>
 <body style="margin: 0; overflow: hidden;">
-  <!-- AR.js library -->
+  <!-- A-Frame library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/aframe/1.4.2/aframe.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ar.js/2.1.1/aframe-ar.min.js"></script>
 
-<!-- Place this JavaScript code after the above <script> tags -->
-<script>
-  const scene = document.querySelector("a-scene");
-  let drawing = false;
-  let lastPosition;
-
-  scene.addEventListener("touchstart", (e) => {
-    drawing = true;
-    lastPosition = getTouchPoint(e);
-  });
-
-  scene.addEventListener("touchmove", (e) => {
-    if (drawing) {
-      const newPosition = getTouchPoint(e);
-
-      // Draw line using three.js
-      drawLine(lastPosition, newPosition);
-		console.log('drawed');
-      lastPosition = newPosition;
-    }
-  });
-
-  scene.addEventListener("touchend", () => {
-    drawing = false;
-  });
-
-  function getTouchPoint(e) {
-    const touch = e.touches[0];
-    const touchX = touch.clientX;
-    const touchY = touch.clientY;
-	console.log(touchX + ',' + touchY);
-    return { x: touchX, y: touchY };
-  }
-
-  function drawLine(startPoint, endPoint) {
-    const material = new THREE.LineBasicMaterial({ color: 0xff0000 });
-    const geometry = new THREE.BufferGeometry().setFromPoints([
-      new THREE.Vector3(startPoint.x, startPoint.y, 0),
-      new THREE.Vector3(endPoint.x, endPoint.y, 0),
-    ]);
-
-    const line = new THREE.Line(geometry, material);
-    scene.object3D.add(line);
-  }
-</script>
-
-
-
-
-
-  <!-- Your marker image -->
+  <!-- Your AR scene with line drawing -->
   <a-scene embedded arjs>
-    <a-marker preset="custom" type="pattern" url="path/to/your-marker.patt">
-      <!-- 3D content to display on the marker -->
-      <a-box position="0 0.5 0" material="color: yellow;"></a-box>
-    </a-marker>
     <a-entity camera></a-entity>
+    <a-entity id="drawingContainer"></a-entity>
   </a-scene>
+
+  <script>
+    const scene = document.querySelector("a-scene");
+    let drawing = false;
+    let lastPosition;
+
+    scene.addEventListener("touchstart", (e) => {
+      drawing = true;
+      lastPosition = getTouchPoint(e);
+    });
+
+    scene.addEventListener("touchmove", (e) => {
+      if (drawing) {
+        const newPosition = getTouchPoint(e);
+
+        // Draw line directly in AR space using A-Frame
+        drawLine(lastPosition, newPosition);
+
+        lastPosition = newPosition;
+      }
+    });
+
+    scene.addEventListener("touchend", () => {
+      drawing = false;
+    });
+
+    function getTouchPoint(e) {
+      const touch = e.touches[0];
+      const touchX = touch.clientX;
+      const touchY = touch.clientY;
+      return { x: touchX, y: touchY };
+    }
+
+    function drawLine(startPoint, endPoint) {
+      const drawingContainer = document.getElementById("drawingContainer");
+
+      const line = document.createElement("a-entity");
+      line.setAttribute("line", {
+        start: `${startPoint.x} ${startPoint.y} 0`,
+        end: `${endPoint.x} ${endPoint.y} 0`,
+        color: "#ff0000",
+      });
+
+      drawingContainer.appendChild(line);
+    }
+  </script>
 </body>
 </html>
