@@ -10,17 +10,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/aframe/1.4.2/aframe.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ar.js/2.1.1/aframe-ar.min.js"></script>
 
-  <!-- Your marker image -->
-  <a-scene embedded arjs>
-    <a-marker preset="custom" type="pattern" url="path/to/your-marker.patt">
-      <!-- 3D content to display on the marker -->
-      <a-box position="0 0.5 0" material="color: yellow;"></a-box>
-    </a-marker>
-    <a-entity camera></a-entity>
-  </a-scene>
-</body>
-</html>
-
 <!-- Place this JavaScript code after the above <script> tags -->
 <script>
   const scene = document.querySelector("a-scene");
@@ -66,3 +55,18 @@
     scene.object3D.add(line);
   }
 </script>
+
+
+
+
+
+  <!-- Your marker image -->
+  <a-scene embedded arjs>
+    <a-marker preset="custom" type="pattern" url="path/to/your-marker.patt">
+      <!-- 3D content to display on the marker -->
+      <a-box position="0 0.5 0" material="color: yellow;"></a-box>
+    </a-marker>
+    <a-entity camera></a-entity>
+  </a-scene>
+</body>
+</html>
