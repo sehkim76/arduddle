@@ -38,7 +38,7 @@
 
       // Draw line using three.js
       drawLine(lastPosition, newPosition);
-
+		console.log('drawed');
       lastPosition = newPosition;
     }
   });
@@ -51,6 +51,7 @@
     const touch = e.touches[0];
     const touchX = touch.clientX;
     const touchY = touch.clientY;
+	console.log(touchX + ',' + touchY);
     return { x: touchX, y: touchY };
   }
 
